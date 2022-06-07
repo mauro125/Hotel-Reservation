@@ -1,8 +1,8 @@
 package userInterface;
 
+import resources.AdminResource;
 import java.util.Scanner;
-
-import static userInterface.CreateUserAccount.createAccount;
+import static userInterface.accountCreationMenu.CreateUserAccount.createAccount;
 
 public class MainMenu {
     public static void menu() {
@@ -32,7 +32,7 @@ public class MainMenu {
                             firstRun = true;
                         }
                         case 4 -> {
-                            System.out.println("Admin");
+                            AdminResource.getAllCustomers();
                         }
                         case 5 -> {
                             System.out.println("Please come again!");

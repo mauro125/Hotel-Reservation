@@ -1,11 +1,14 @@
 package model.customer;
 
+import java.util.regex.Pattern;
+
 public class Customer {
     private String fName;
     private String lName;
     private String email;
 
     public Customer(String fName, String lName, String email) {
+        this.isValidEmail(email);
         this.fName = fName;
         this.lName = lName;
         this.email = email;
@@ -34,6 +37,15 @@ public class Customer {
 
     public String setEmail(String email) {
         return this.email = email;
+    }
+
+    private void isValidEmail(final String email) {
+        String EMAIL_REGEX = "^(.+)@(.+).com$";
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+
+        if(!pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("Invalid email");
+        }
     }
 
     @Override
