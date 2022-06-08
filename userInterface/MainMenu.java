@@ -1,8 +1,9 @@
 package userInterface;
 
-import resources.AdminResource;
 import java.util.Scanner;
+
 import static userInterface.accountCreationMenu.CreateUserAccount.createAccount;
+import static userInterface.adminMenu.AdminMenu.adminMenu;
 
 public class MainMenu {
     public static void menu() {
@@ -10,31 +11,29 @@ public class MainMenu {
         boolean firstRun = true;
         boolean fromOtherMenu = false;
         try (Scanner scanner = new Scanner(System.in)) {
-
             while (keepRunning) {
                 try {
                     fromOtherMenu = false;
                     displayMenu(firstRun);
                     firstRun = false;
-                    int selection = Integer.parseInt(scanner.nextLine());
-                    System.out.println("\n");
+                    String selection = scanner.nextLine();
 
                     switch (selection) {
-                        case 1 -> {
+                        case "1" -> {
                             System.out.println("Find and reserve a room");
                         }
-                        case 2 -> {
+                        case "2" -> {
                             System.out.println("See my reservations");
                         }
-                        case 3 -> {
+                        case "3" -> {
                             fromOtherMenu = true;
                             createAccount();
                             firstRun = true;
                         }
-                        case 4 -> {
-                            AdminResource.getAllCustomers();
+                        case "4" -> {
+                            adminMenu();
                         }
-                        case 5 -> {
+                        case "5" -> {
                             System.out.println("Please come again!");
                             keepRunning = false;
                         }

@@ -1,16 +1,18 @@
 package userInterface.accountCreationMenu;
 
+import resources.AdminResource;
+
 import java.util.Scanner;
 
 import static service.customer.CustomerService.createUser;
 
 
 public class CreateUserAccount {
-
+    private static final AdminResource adminResource = AdminResource.getSingleton();
     public static void createAccount() {
         boolean valid = true;
         Scanner scannerUserCreation = new Scanner(System.in);
-        System.out.println("-------------------------------------------------------");
+        System.out.println("\n\n-------------------------------------------------------");
         System.out.println("\t\t\t\t-Create an Account-");
         System.out.println("Type \"back\" anytime to go back to the main menu");
         System.out.println("-------------------------------------------------------");
@@ -70,7 +72,7 @@ public class CreateUserAccount {
                 valid = false;
             } while (!lName.matches("^[a-zA-Z]*$"));
             if (!input.equals("back")) {
-                createUser(fName, lName, email);
+                adminResource.createUser(fName, lName, email);
             }
             input = "back";
 
