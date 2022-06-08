@@ -15,7 +15,6 @@ public class CustomerService {
         return SINGLETON;
     }
 
-
     static Map<String, Customer> customers = new HashMap<>();
 
     public static void createUser(String fName, String lName, String email) {

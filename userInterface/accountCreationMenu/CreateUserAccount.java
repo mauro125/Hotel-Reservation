@@ -1,14 +1,11 @@
 package userInterface.accountCreationMenu;
 
-import resources.AdminResource;
-
+import resources.UserResources;
 import java.util.Scanner;
 
-import static service.customer.CustomerService.createUser;
-
-
 public class CreateUserAccount {
-    private static final AdminResource adminResource = AdminResource.getSingleton();
+    private static final UserResources userResources = UserResources.getSingleton();
+
     public static void createAccount() {
         boolean valid = true;
         Scanner scannerUserCreation = new Scanner(System.in);
@@ -42,7 +39,6 @@ public class CreateUserAccount {
                 if (!valid) {
                     System.out.println("\nOnly letters allowed\nCheck your input and try again\n");
                 }
-
                 System.out.print("Enter your First Name: ");
                 input = scannerUserCreation.nextLine();
                 fName = input.substring(0, 1).toUpperCase() + input.substring(1);
@@ -64,18 +60,18 @@ public class CreateUserAccount {
                 }
                 System.out.print("Enter your Last Name: ");
                 input = scannerUserCreation.nextLine();
-                lName = input.substring(0, 1).toUpperCase() + input.substring(1);;
+                lName = input.substring(0, 1).toUpperCase() + input.substring(1);
                 if (input.equals("back")) {
                     break;
                 }
                 System.out.println(lName);
                 valid = false;
             } while (!lName.matches("^[a-zA-Z]*$"));
+
             if (!input.equals("back")) {
-                adminResource.createUser(fName, lName, email);
+                userResources.createUser(fName, lName, email);
             }
             input = "back";
-
         } while (!input.equals("back"));
     }
 }

@@ -20,7 +20,4 @@ public class AdminResource {
         customerService.getAllCustomers();
     }
 
-    public static void createUser(String fName, String lName, String email) {
-        customerService.createUser(fName, lName, email);
-    }
 }
