@@ -4,7 +4,7 @@ import resources.AdminResource;
 
 import java.util.Scanner;
 
-import static userInterface.adminMenu.CreateRoom.createRoom;
+import static userInterface.adminMenu.AddRoom.addRoom;
 
 public class AdminMenu {
     private static final AdminResource adminResource = AdminResource.getSingleton();
@@ -23,13 +23,13 @@ public class AdminMenu {
                         adminResource.getAllCustomers();
                     }
                     case 2 -> {
-                        System.out.println("See my reservations");
+                        adminResource.displayAllRooms();
                     }
                     case 3 -> {
-                        System.out.println("adamin");
+                        System.out.println("See all reservations");
                     }
                     case 4 -> {
-                        createRoom();
+                        addRoom();
                     }
                     case 5 -> {
                         adminKeepRunning = false;

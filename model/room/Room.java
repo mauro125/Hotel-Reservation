@@ -8,6 +8,7 @@ public class Room implements IRoom {
     private RoomType roomType;
 
     public Room(int roomNumber, Double roomPrice, RoomType roomType) {
+        super();
         this.roomNumber = roomNumber;
         this.roomPrice = roomPrice;
         this.roomType = roomType;

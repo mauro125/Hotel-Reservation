@@ -70,8 +70,8 @@ public class CreateUserAccount {
 
             if (!input.equals("back")) {
                 userResources.createUser(fName, lName, email);
+                break;
             }
-            input = "back";
         } while (!input.equals("back"));
     }
 }

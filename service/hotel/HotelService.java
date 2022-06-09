@@ -16,25 +16,28 @@ public class HotelService {
         return SINGLETON;
     }
 
-    static Map<String, Room> rooms = new HashMap<>();
+    static Map<Integer, Room> rooms = new HashMap<>();
 
     public static void addRoom(int roomNumber, Double price, RoomType roomType) {
         Room room = new Room(roomNumber, price, roomType);
+        rooms.put(roomNumber, room);
+        //display all rooms
+        getAllRooms();
     }
 
-    public static void getAllCustomers() {
+    public static void getAllRooms() {
         if (rooms.size() == 0) {
             System.out.println("********************************************************");
-            System.out.println("\t\t\t\tNo Rooms found");
+            System.out.println("\t\t\t\t\tNo Rooms found");
             System.out.println("********************************************************\n");
         } else {
             System.out.println("\t\t\t\tall customers");
             System.out.println("------------------------------------------------------");
             System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
             System.out.println("------------------------------------------------------");
-            for (Map.Entry<String, Room> entry : rooms.entrySet()) {
-                System.out.println(entry.getValue().getRoomNumber() + "\t\t\t" + entry.getValue().getRoomPrice() +
-                        "\t\t\t" + entry.getValue().getRoomType());
+            for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
+                String formattedStr = String.format("#%d\t\t\t$%.2f\t\t%s", entry.getKey(), entry.getValue().getRoomPrice(), entry.getValue().getRoomType());
+                System.out.println(formattedStr);
             }
         }
     }

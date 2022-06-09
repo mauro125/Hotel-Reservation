@@ -1,5 +1,8 @@
 package model.customer;
 
+import model.room.Room;
+
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Customer {
@@ -52,4 +55,23 @@ public class Customer {
     public String toString() {
         return fName + " " + lName + " " + email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
+        if(!(obj instanceof Customer customer)) {
+            return false;
+        }
+
+        return Objects.equals(this.email, customer.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.email.hashCode();
+    }
+
 }
