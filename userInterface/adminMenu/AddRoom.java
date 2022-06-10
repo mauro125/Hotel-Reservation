@@ -20,21 +20,19 @@ public class AddRoom {
             System.out.println("\t\t\t\t\t-Add a Room-");
             System.out.println("\tType \"back\" anytime to go back to the main menu");
             System.out.println("-------------------------------------------------------");
-            int roomNumber = 0;
+            String roomNumber = "";
             do {
                 if (!valid) {
-                    System.out.println("Only numbers are allowed");
+                    System.out.println("check your input and try again");
                 }
                 System.out.print("Enter Room Number: ");
                 input = scannerRoomCreation.nextLine();
+                roomNumber = input;
                 if (input.equals("back")) {
                     break;
                 }
-                if (input.matches("^[0-9]*$")) {
-                    roomNumber = Integer.parseInt(input);
-                }
                 valid = false;
-            } while (!input.matches("^[0-9]*$"));
+            } while (input.equals(""));
             valid = true;
             if (input.equals("back")) {
                 break;

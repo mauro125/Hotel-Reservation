@@ -16,9 +16,9 @@ public class HotelService {
         return SINGLETON;
     }
 
-    static Map<Integer, Room> rooms = new HashMap<>();
+    static Map<String, Room> rooms = new HashMap<>();
 
-    public static void addRoom(int roomNumber, Double price, RoomType roomType) {
+    public static void addRoom(String roomNumber, Double price, RoomType roomType) {
         Room room = new Room(roomNumber, price, roomType);
         rooms.put(roomNumber, room);
         //display all rooms
@@ -35,8 +35,8 @@ public class HotelService {
             System.out.println("------------------------------------------------------");
             System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
             System.out.println("------------------------------------------------------");
-            for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
-                String formattedStr = String.format("#%d\t\t\t$%.2f\t\t%s", entry.getKey(), entry.getValue().getRoomPrice(), entry.getValue().getRoomType());
+            for (Map.Entry<String, Room> entry : rooms.entrySet()) {
+                String formattedStr = String.format("#%s\t\t\t$%.2f\t\t%s", entry.getKey(), entry.getValue().getRoomPrice(), entry.getValue().getRoomType());
                 System.out.println(formattedStr);
             }
         }

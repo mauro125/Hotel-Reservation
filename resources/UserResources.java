@@ -17,4 +17,8 @@ public class UserResources {
     public static void createUser(String fName, String lName, String email) {
         customerService.createUser(fName, lName, email);
     }
+
+    public static boolean isEmailInSystem(String email) {
+        return customerService.isEmailInSystem(email);
+    }
 }

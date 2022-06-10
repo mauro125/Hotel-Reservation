@@ -16,9 +16,16 @@ public class CreateUserAccount {
         String input;
         do {
             String email;
+            boolean emailInUse = false;
             do {
-                if (!valid) {
-                    System.out.println("Your email must be in the proper format \"joe@doe.com\":");
+                if (!valid || emailInUse) {
+                    if(!valid) {
+                        System.out.println("Your email must be in the proper format \"joe@doe.com\":");
+                    }
+                    if (emailInUse) {
+                        System.out.println("That email is already in use");
+                        System.out.println("Please enter a different email");
+                    }
                 }
                 System.out.print("Enter your Email: ");
                 input = scannerUserCreation.nextLine().toLowerCase();
@@ -26,8 +33,14 @@ public class CreateUserAccount {
                 if (input.equals("back")) {
                     break;
                 }
-                System.out.println(email);
-                valid = false;
+                if (!email.matches("^(.+)@(.+).com$")) {
+                    valid = false;
+                }
+                if(userResources.isEmailInSystem(email)) {
+                    emailInUse = true;
+                    valid = true;
+                    email = "email already in use";
+                }
             } while (!email.matches("^(.+)@(.+).com$"));
             valid = true;
             if (input.equals("back")) {

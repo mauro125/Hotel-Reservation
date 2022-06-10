@@ -23,7 +23,7 @@ public class AdminResource {
         customerService.getAllCustomers();
     }
 
-    public static void addRoom(int roomNumber, Double price, RoomType roomType) {
+    public static void addRoom(String roomNumber, Double price, RoomType roomType) {
         hotelService.addRoom(roomNumber, price, roomType);
     }
 

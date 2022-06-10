@@ -2,6 +2,7 @@ package service.customer;
 
 import model.customer.Customer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ public class CustomerService {
 
     static Map<String, Customer> customers = new HashMap<>();
 
+    public static boolean isEmailInSystem(String email) {
+        return customers.containsKey(email);
+    }
+
     public static void createUser(String fName, String lName, String email) {
         Customer customer = new Customer(fName, lName, email);
         customers.put(email, customer);
@@ -25,6 +30,14 @@ public class CustomerService {
 //        for (Map.Entry<String, Customer> entry : customers.entrySet()) {
 //            System.out.println(entry.getKey() + ": " + entry.getValue());
 //        }
+    }
+
+    public Customer getCustomer(String email) {
+        return customers.get(email);
+    }
+
+    public Collection<Customer> getAllCustomers2() {
+        return customers.values();
     }
 
     public static void getAllCustomers() {

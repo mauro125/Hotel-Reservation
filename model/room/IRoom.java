@@ -3,7 +3,8 @@ package model.room;
 import roomEnum.RoomType;
 
 public interface IRoom {
-    public int getRoomNumber();
+    public String getRoomNumber();
     public Double getRoomPrice();
     public RoomType getRoomType();
+    public boolean isFree();
 }
