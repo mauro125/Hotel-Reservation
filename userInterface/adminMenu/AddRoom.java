@@ -1,7 +1,7 @@
 package userInterface.adminMenu;
 
 import resources.AdminResource;
-import roomEnum.RoomType;
+import model.roomEnum.RoomType;
 
 import java.util.Scanner;
 
@@ -99,7 +99,6 @@ public class AddRoom {
                     }
                 }
             }
-            System.out.println("Room Number: " + roomNumber + "\nPrice: " + price + "\nRoom Type: " + roomType);
         } while (addAnotherRoom);
     }
 }

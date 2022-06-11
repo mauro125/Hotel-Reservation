@@ -1,6 +1,6 @@
 package model.room;
 
-import roomEnum.RoomType;
+import model.roomEnum.RoomType;
 
 public interface IRoom {
     public String getRoomNumber();

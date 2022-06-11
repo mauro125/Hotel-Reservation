@@ -1,6 +1,6 @@
 package model.room;
 
-import roomEnum.RoomType;
+import model.roomEnum.RoomType;
 
 public class Room implements IRoom {
     private String roomNumber;
@@ -34,8 +34,6 @@ public class Room implements IRoom {
         return roomType;
     }
 
-
-
     public RoomType setRoomType(RoomType roomType) {
         return this.roomType = roomType;
     }
@@ -46,6 +44,6 @@ public class Room implements IRoom {
 
     @Override
     public String toString() {
-        return "Room Number: " + roomNumber + "\nRoom Price: " + price + "\nRoom Type: " + roomType;
+        return "#" + roomNumber + "\t\t\t$" + price + "\t\t\t" + roomType;
     }
 }

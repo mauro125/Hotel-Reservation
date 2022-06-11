@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import static userInterface.accountCreationMenu.CreateUserAccount.createAccount;
 import static userInterface.adminMenu.AdminMenu.adminMenu;
+import static userInterface.createReservation.BookARoom.bookARoom;
 
 public class MainMenu {
     public static void menu() {
@@ -20,7 +21,7 @@ public class MainMenu {
 
                     switch (selection) {
                         case "1" -> {
-                            System.out.println("Find and reserve a room");
+                            bookARoom();
                         }
                         case "2" -> {
                             System.out.println("See my reservations");

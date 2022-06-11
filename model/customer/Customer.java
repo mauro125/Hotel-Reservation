@@ -1,7 +1,5 @@
 package model.customer;
 
-import model.room.Room;
-
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -53,7 +51,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return fName + " " + lName + " " + email;
+        return fName + "\t\t" + lName + "\t\t" + email;
     }
 
     @Override

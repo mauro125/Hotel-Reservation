@@ -1,6 +1,6 @@
 package model.room;
 
-import roomEnum.RoomType;
+import model.roomEnum.RoomType;
 
 public class FreeRoom extends Room {
     public FreeRoom(String roomNumber, Double price, RoomType roomType) {
@@ -9,6 +9,6 @@ public class FreeRoom extends Room {
 
     @Override
     public String toString() {
-        return super.toString() + " => FreeRoom";
+        return super.toString() + " is a free room, thank you for your visit!";
     }
 }

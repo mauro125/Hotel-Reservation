@@ -22,38 +22,16 @@ public class CustomerService {
         return customers.containsKey(email);
     }
 
-    public static void createUser(String fName, String lName, String email) {
+    public static void addCustomer(String fName, String lName, String email) {
         Customer customer = new Customer(fName, lName, email);
         customers.put(email, customer);
-//
-//        System.out.println("mapping customers");
-//        for (Map.Entry<String, Customer> entry : customers.entrySet()) {
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-//        }
     }
 
-    public Customer getCustomer(String email) {
-        return customers.get(email);
+    public Customer getCustomer(String customerEmail) {
+        return customers.get(customerEmail);
     }
 
-    public Collection<Customer> getAllCustomers2() {
+    public Collection<Customer> getAllCustomers() {
         return customers.values();
-    }
-
-    public static void getAllCustomers() {
-        if (customers.size() == 0) {
-            System.out.println("********************************************************");
-            System.out.println("\t\t\t\tNo customers found");
-            System.out.println("********************************************************\n");
-        } else {
-            System.out.println("\t\t\t\tall customers");
-            System.out.println("------------------------------------------------------");
-            System.out.println("First Name\t\tLast Name\t\tEmail");
-            System.out.println("------------------------------------------------------");
-            for (Map.Entry<String, Customer> entry : customers.entrySet()) {
-                System.out.println(entry.getValue().getfName() + "\t\t\t" + entry.getValue().getlName() +
-                        "\t\t\t" + entry.getValue().getEmail());
-            }
-        }
     }
 }

@@ -1,10 +1,13 @@
 package userInterface.adminMenu;
 
+import model.customer.Customer;
 import resources.AdminResource;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 import static userInterface.adminMenu.AddRoom.addRoom;
+import static utils.PrintStuff.displayCustomers;
 
 public class AdminMenu {
     private static final AdminResource adminResource = AdminResource.getSingleton();
@@ -20,7 +23,12 @@ public class AdminMenu {
 
                 switch (adminSelection) {
                     case 1 -> {
-                        adminResource.getAllCustomers();
+//                        Collection<Customer> customers =  adminResource.getAllCustomers();
+//                        displayCustomers(customers);
+                        displayCustomers(adminResource.getAllCustomers());
+//                        for (Customer customer : customers) {
+//                            System.out.println(customer.toString());
+//                        }
                     }
                     case 2 -> {
                         adminResource.displayAllRooms();

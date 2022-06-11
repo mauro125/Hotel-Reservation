@@ -30,6 +30,7 @@ public class CreateUserAccount {
                 System.out.print("Enter your Email: ");
                 input = scannerUserCreation.nextLine().toLowerCase();
                 email = input;
+
                 if (input.equals("back")) {
                     break;
                 }
