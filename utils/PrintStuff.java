@@ -1,6 +1,7 @@
 package utils;
 
 import model.customer.Customer;
+import model.reservation.Reservation;
 import model.room.IRoom;
 import service.customer.CustomerService;
 
@@ -39,6 +40,22 @@ public class PrintStuff {
                 System.out.println(room);
             }
             System.out.println("\n");
+        }
+    }
+
+    public static void displayAllReservations(Collection<Reservation> reservations) {
+        if (reservations.size() == 0) {
+            System.out.println("********************************************************");
+            System.out.println("\t\t\t\tNo reservations found");
+            System.out.println("********************************************************\n");
+        } else {
+            System.out.println("\t\t\t\tall reservations");
+
+            System.out.println("------------------------------------------------------");
+            for (Object reservation : reservations) {
+                System.out.println(reservation);
+            }
+            System.out.println("------------------------------------------------------");
         }
     }
 }

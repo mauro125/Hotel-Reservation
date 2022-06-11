@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import static userInterface.adminMenu.AddRoom.addRoom;
+import static utils.PrintStuff.displayAllReservations;
 import static utils.PrintStuff.displayCustomers;
 
 public class AdminMenu {
@@ -35,6 +36,7 @@ public class AdminMenu {
                     }
                     case 3 -> {
                         System.out.println("See all reservations");
+                        displayAllReservations(adminResource.displayAllReservations());
                     }
                     case 4 -> {
                         addRoom();

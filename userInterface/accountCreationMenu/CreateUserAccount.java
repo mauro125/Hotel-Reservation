@@ -30,7 +30,6 @@ public class CreateUserAccount {
                 System.out.print("Enter your Email: ");
                 input = scannerUserCreation.nextLine().toLowerCase();
                 email = input;
-
                 if (input.equals("back")) {
                     break;
                 }
@@ -39,7 +38,6 @@ public class CreateUserAccount {
                 }
                 if(userResources.isEmailInSystem(email)) {
                     emailInUse = true;
-                    valid = true;
                     email = "email already in use";
                 }
             } while (!email.matches("^(.+)@(.+).com$"));

@@ -1,5 +1,6 @@
 package resources;
 
+import model.customer.Customer;
 import model.room.IRoom;
 import service.customer.CustomerService;
 import service.reservation.ReservationService;
@@ -34,5 +35,9 @@ public class UserResources {
 
     public static boolean isEmailInSystem(String email) {
         return customerService.isEmailInSystem(email);
+    }
+
+    public static Customer getCustomer(String email) {
+        return customerService.getCustomer(email);
     }
 }

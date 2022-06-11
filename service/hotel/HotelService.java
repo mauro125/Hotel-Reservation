@@ -22,9 +22,8 @@ public class HotelService {
     static Map<String, IRoom> rooms = new HashMap<>();
 
     public static void addRoom(String roomNumber, Double price, RoomType roomType) {
-        Room room = new Room(roomNumber, price, roomType);
+        final Room room = new Room(roomNumber, price, roomType);
         rooms.put(roomNumber, room);
-        //display all rooms
         displayAllRooms();
     }
 

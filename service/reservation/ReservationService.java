@@ -7,11 +7,10 @@ import model.room.Room;
 import service.hotel.HotelService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static model.roomEnum.RoomType.DOUBLE;
 import static model.roomEnum.RoomType.SINGLE;
-import static resources.AdminResource.getCustomer;
-import static service.customer.CustomerService.addCustomer;
 
 public class ReservationService {
     private static final ReservationService SINGLETON = new ReservationService();
@@ -37,8 +36,8 @@ public class ReservationService {
     }
 
     public void loadDummyData() {
-        Customer customer1 = new Customer("Mauricio", "Joseneto", "Narama125@gmail.com");
-        Customer customer2 = new Customer("jeff", "Santos", "Hector@gmail.com");
+        Customer customer1 = new Customer("Mauricio", "Joseneto", "narama125@gmail.com");
+        Customer customer2 = new Customer("jeff", "Santos", "hector@gmail.com");
         Room room1 = new Room("101", 100.0, SINGLE);
         Room room2 = new Room("102", 120.0, DOUBLE);
         Calendar calendar = Calendar.getInstance();
@@ -85,9 +84,10 @@ public class ReservationService {
             }
         }
 
-        for (IRoom room : rooms) {
-            openRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
-        }
+//        for (IRoom ignored : rooms) {
+//            openRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
+//        }
+        openRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
         Iterator<String> openRoomsIterator = openRooms.iterator();
         Collection<IRoom> roomCollection = null;
         while (openRoomsIterator.hasNext()) {
@@ -98,10 +98,11 @@ public class ReservationService {
 //            uniqu
 //            uniqueOpenRooms.put(roomNumber, hotelService.getRoom(roomNumber));
             roomCollection = rooms.stream().filter(room -> room.getRoomNumber().equals(roomNumber)).toList();
+            uniqueOpenRooms.put(roomNumber, roomCollection);
         }
 //        openRooms.addAll(openRooms);
 //        return rooms.stream().filter(room -> !openRooms.contains(room.getRoomNumber())).collect(Collectors.toList());
-        return roomCollection;
+        return uniqueOpenRooms.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
 //        for (Collection<IRoom> reservation : reservations.values()) {
 //            if (reservations.getCheckOutDate()(cehckInDate) && reservations.after(checkOutDate)) {
 //                return room;
@@ -120,7 +121,7 @@ public class ReservationService {
 //        return availableRooms;
 //    }
 
-    private Collection<Reservation> getAllReservations() {
+    public Collection<Reservation> getAllReservations() {
         return reservations.values();
     }
 
