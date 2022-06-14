@@ -5,7 +5,7 @@ import java.util.Scanner;
 import static userInterface.accountCreationMenu.CreateUserAccount.createAccount;
 import static userInterface.adminMenu.AdminMenu.adminMenu;
 import static userInterface.createReservation.BookARoom.bookARoom;
-import static userInterface.showUserRes.DisplayUserRes.showMyReservations;
+import static userInterface.showUserRes.DisplayUserReservations.showMyReservations;
 
 public class MainMenu {
     public static void menu() {

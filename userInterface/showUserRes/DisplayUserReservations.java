@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static utils.PrintStuff.displayCustomerReservations;
 
-public class DisplayUserRes {
+public class DisplayUserReservations {
     static public void showMyReservations() {
         final UserResources userResources = UserResources.getSingleton();
         Scanner scannerDisplayres = new Scanner(System.in);

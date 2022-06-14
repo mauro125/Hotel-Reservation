@@ -13,7 +13,7 @@ import java.util.*;
 import static utils.PrintStuff.displayAvailableRooms;
 
 public class BookARoom {
-    private static final ReservationService reservationService = ReservationService.getSingleton();
+//    private static final ReservationService reservationService = ReservationService.getSingleton();
     private static final UserResources userResources = UserResources.getSingleton();
 
     public static void bookARoom() {
@@ -29,7 +29,7 @@ public class BookARoom {
         Room roomToBook = null;
         boolean hasRooms;
 
-        reservationService.loadDummyData();
+//        reservationService.loadDummyData();
 
 
         do {
@@ -106,10 +106,6 @@ public class BookARoom {
 
             Collection<IRoom> availableRooms = userResources.displayAvailableRooms(checkInDate, checkOutDate);
 
-//            Collection<IRoom> availableRooms = reservationService.findRooms(checkInDate, checkOutDate);
-
-//            displayAvailableRooms(reservationService.findRooms(checkInDate, checkOutDate));
-
             do {
                 hasRooms = displayAvailableRooms(availableRooms);
                 if (!hasRooms) {
@@ -150,7 +146,6 @@ public class BookARoom {
                             } else {
                                 if (userResources.isEmailInSystem(email)) {
                                     customer = userResources.getCustomer(email);
-//                                    System.out.println(customer.toString());
                                     emailFound = true;
                                     valid = true;
                                 } else {
@@ -180,10 +175,6 @@ public class BookARoom {
                     break;
                 }
 
-//                contains = availableRooms.con
-//                for (IRoom room : availableRooms) {
-//                    System.out.println(room.getRoomNumber());
-//                }
             } while (!valid && !input.equals("back"));
 
             if (!hasRooms) {
@@ -192,15 +183,7 @@ public class BookARoom {
             if (input.equals("back")) {
                 break;
             }
-            String RoomNum = "";
             do {
-//                if (!valid) {
-//                    System.out.println("\n-------------------------------------------------------");
-//                    System.out.println("\t\t\t-Check room number-");
-//                    System.out.println("\tType \"back\" anytime to go back to the main menu");
-//                    System.out.println("-------------------------------------------------------");
-//                }
-////                valid = false;
                 System.out.print("What room would you like to book: ");
                 input = scannerRoomCreation.nextLine();
                 if (input.equals("back")) {
@@ -224,9 +207,6 @@ public class BookARoom {
                         valid = false;
                     }
                 }
-//                    if (availableRooms.stream().anyMatch(room -> room.getRoomNumber() == finalInput)) {
-//                        roomToBook = (Room) availableRooms.stream().filter(room -> room.getRoomNumber() == finalInput).findFirst().get();
-//                    }
                 System.out.println(roomToBook);
 //                }
             } while (!valid);
@@ -253,7 +233,6 @@ public class BookARoom {
                     System.out.println("\t\t\t\tBooking confirmed!");
                     System.out.println("-------------------------------------------------------\n\n");
                     userResources.createReservation(customer, roomToBook, checkInDate, checkOutDate);
-//                    reservationService.reserveARoom(customer, roomToBook, checkInDate, checkOutDate);
                     valid = true;
                     break;
                 } else if (input.equals("n")) {
@@ -283,7 +262,6 @@ public class BookARoom {
         int year = Integer.parseInt(input.substring(6, 10));
         calendar.set(year, month - 1, day);
         inputDate = calendar.getTime();
-        System.out.println(inputDate);
         return inputDate;
     }
 }

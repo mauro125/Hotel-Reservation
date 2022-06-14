@@ -36,17 +36,17 @@ public class HotelService {
         return rooms.containsKey(roomNumber);
     }
 
-    public Collection<IRoom> getRoom(String roomNumber) {
-        return (Collection<IRoom>) rooms.get(roomNumber);
-    }
+//    public Collection<IRoom> getRoom(String roomNumber) {
+//        return (Collection<IRoom>) rooms.get(roomNumber);
+//    }
 
     public Collection<IRoom> getAllRooms() {
         return rooms.values();
     }
 
-    public Collection<IRoom> getAllUnavailableRooms() {
-        return unavailableRooms.values();
-    }
+//    public Collection<IRoom> getAllUnavailableRooms() {
+//        return unavailableRooms.values();
+//    }
 
     public static void displayAllRooms() {
         if (rooms.size() == 0) {
