@@ -1,9 +1,7 @@
 package userInterface.adminMenu;
 
-import model.customer.Customer;
-import resources.AdminResource;
+import resources.AdminResources;
 
-import java.util.Collection;
 import java.util.Scanner;
 
 import static userInterface.adminMenu.AddRoom.addRoom;
@@ -11,7 +9,7 @@ import static utils.PrintStuff.displayAllReservations;
 import static utils.PrintStuff.displayCustomers;
 
 public class AdminMenu {
-    private static final AdminResource adminResource = AdminResource.getSingleton();
+    private static final AdminResources adminResources = AdminResources.getSingleton();
     static Scanner adminScanner = new Scanner(System.in);
 
     public static void adminMenu() {
@@ -24,19 +22,13 @@ public class AdminMenu {
 
                 switch (adminSelection) {
                     case 1 -> {
-//                        Collection<Customer> customers =  adminResource.getAllCustomers();
-//                        displayCustomers(customers);
-                        displayCustomers(adminResource.getAllCustomers());
-//                        for (Customer customer : customers) {
-//                            System.out.println(customer.toString());
-//                        }
+                        displayCustomers(adminResources.getAllCustomers());
                     }
                     case 2 -> {
-                        adminResource.displayAllRooms();
+                        adminResources.displayAllRooms();
                     }
                     case 3 -> {
-                        System.out.println("See all reservations");
-                        displayAllReservations(adminResource.displayAllReservations());
+                        displayAllReservations(adminResources.displayAllReservations());
                     }
                     case 4 -> {
                         addRoom();

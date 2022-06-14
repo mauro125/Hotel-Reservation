@@ -26,12 +26,15 @@ public class PrintStuff {
         }
     }
 
-    public static void displayAvailableRooms(Collection<IRoom> rooms) {
+    public static boolean displayAvailableRooms(Collection<IRoom> rooms) {
+        boolean hasRooms = false;
         if (rooms.size() == 0) {
             System.out.println("********************************************************");
             System.out.println("\t\t\t\tNo rooms Available to book");
-            System.out.println("********************************************************\n");
+            System.out.println("\t\t\t\t\tBack to main menu..");
+            System.out.println("********************************************************\n\n");
         } else {
+            hasRooms = true;
             System.out.println("\t\t\t\tAvailable rooms");
             System.out.println("------------------------------------------------------");
             System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
@@ -41,6 +44,8 @@ public class PrintStuff {
             }
             System.out.println("\n");
         }
+
+        return hasRooms;
     }
 
     public static void displayAllReservations(Collection<Reservation> reservations) {
@@ -49,13 +54,21 @@ public class PrintStuff {
             System.out.println("\t\t\t\tNo reservations found");
             System.out.println("********************************************************\n");
         } else {
-            System.out.println("\t\t\t\tall reservations");
-
-            System.out.println("------------------------------------------------------");
+            System.out.println("\t\t\t\tAll Reservations");
             for (Object reservation : reservations) {
+                System.out.println("------------------------------------------------------\n");
                 System.out.println(reservation);
+                System.out.println("\n------------------------------------------------------\n");
             }
-            System.out.println("------------------------------------------------------");
+        }
+    }
+
+    public static void displayCustomerReservations(Collection<Reservation> reservations) {
+        System.out.println("\t\t\t\tYour Reservations");
+        for (Object reservation : reservations) {
+            System.out.println("------------------------------------------------------\n");
+            System.out.println(reservation);
+            System.out.println("\n------------------------------------------------------\n");
         }
     }
 }

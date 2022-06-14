@@ -27,7 +27,7 @@ public class BookARoom {
         boolean checkOutIsBeforeCheckin = false;
         Customer customer = null;
         Room roomToBook = null;
-
+        boolean hasRooms;
 
         reservationService.loadDummyData();
 
@@ -43,14 +43,16 @@ public class BookARoom {
                 }
                 if (!valid) {
                     System.out.println("\n-------------------------------------------------------");
-                    System.out.println("Date must be in the format MM/DD/YYYY");
-                    System.out.println("Check your input and try again");
+                    System.out.println("\t\tDate must be in the format MM/DD/YYYY");
+                    System.out.println("\t\t\tCheck your input and try again");
                     System.out.println("-------------------------------------------------------\n");
                 }
 
                 System.out.print("Enter Check-In Date (MM/DD/YYYY): ");
                 input = scannerRoomCreation.nextLine();
-
+                if (input.equals("back")) {
+                    break;
+                }
                 if (input.matches(regex)) {
                     checkInDate = getDate(input);
                 }
@@ -69,21 +71,23 @@ public class BookARoom {
                     if (!valid) {
                         valid = true;
                         System.out.println("\n-------------------------------------------------------");
-                        System.out.println("Date must be in the format MM/DD/YYYY");
-                        System.out.println("Check your input and try again");
+                        System.out.println("\t\t\tDate must be in the format MM/DD/YYYY");
+                        System.out.println("\t\t\t\tCheck your input and try again");
                         System.out.println("-------------------------------------------------------\n");
                     } else if (checkOutIsBeforeCheckin) {
                         checkOutIsBeforeCheckin = false;
                         System.out.println("\n-------------------------------------------------------");
-                        System.out.println("Check-out Date must be after Check-in Date");
-                        System.out.println("Check your input and try again");
+                        System.out.println("\tCheck-out Date must be after Check-in Date");
+                        System.out.println("\t\tCheck your input and try again");
                         System.out.println("-------------------------------------------------------\n");
                     }
                 }
 
                 System.out.print("Enter Check-Out Date (MM/DD/YYYY): ");
                 input = scannerRoomCreation.nextLine();
-
+                if (input.equals("back")) {
+                    break;
+                }
                 if (input.matches(regex)) {
                     checkOutDate = getDate(input);
                     if (Objects.requireNonNull(checkInDate).after(checkOutDate)) {
@@ -93,8 +97,11 @@ public class BookARoom {
                     valid = false;
                 }
             } while (!input.matches(regex) || checkOutIsBeforeCheckin);
+            if (input.equals("back")) {
+                break;
+            }
             System.out.println("\n-------------------------------------------------------");
-            System.out.println("Searching for available rooms...");
+            System.out.println("\t\t\tSearching for available rooms...");
             System.out.println("-------------------------------------------------------\n\n");
 
             Collection<IRoom> availableRooms = reservationService.findRooms(checkInDate, checkOutDate);
@@ -102,71 +109,84 @@ public class BookARoom {
 //            displayAvailableRooms(reservationService.findRooms(checkInDate, checkOutDate));
 
             do {
-                displayAvailableRooms(availableRooms);
-                System.out.print("Do you have an account? (y/n): ");
-                input = scannerRoomCreation.nextLine();
-                if (input.equals("y")) {
-                    System.out.println("-------------------------------------------------------");
-                    boolean emailFound = true;
-                    do {
-                        if (!valid || !emailFound) {
-                            if (!valid) {
-                                valid = true;
-                                System.out.println("\n-------------------------------------------------------");
-                                System.out.println("Your email must be in the proper format \"joe@doe.com\":");
-                                System.out.println("type \"back\" to go back to the main menu or try again");
-                                System.out.println("-------------------------------------------------------\n");
+                hasRooms = displayAvailableRooms(availableRooms);
+                if (!hasRooms) {
+                    break;
+                } else {
+                    System.out.print("Do you have an account? (y/n): ");
+                    input = scannerRoomCreation.nextLine();
+                    if (input.equals("back")) {
+                        break;
+                    }
+                    if (input.equals("y")) {
+                        boolean emailFound = true;
+                        do {
+                            if (!valid || !emailFound) {
+                                if (!valid) {
+                                    valid = true;
+                                    System.out.println("\n-------------------------------------------------------");
+                                    System.out.println("Your email must be in the proper format \"joe@doe.com\":");
+                                    System.out.println("type \"back\" to go back to the main menu or try again");
+                                    System.out.println("-------------------------------------------------------\n");
+                                }
+                                if (!emailFound) {
+                                    emailFound = true;
+                                    System.out.println("\n-------------------------------------------------------");
+                                    System.out.println("\t\t\t\temail not found");
+                                    System.out.println("type \"back\" to go back to the main menu or try again");
+                                    System.out.println("-------------------------------------------------------\n");
+                                }
                             }
-                            if (!emailFound) {
-                                emailFound = true;
-                                System.out.println("\n-------------------------------------------------------");
-                                System.out.println("email not found");
-                                System.out.println("type \"back\" to go back to the main menu or try again");
-                                System.out.println("-------------------------------------------------------\n");
+                            System.out.print("Enter your email address: ");
+                            email = scannerRoomCreation.nextLine();
+                            if (email.equals("back")) {
+                                break;
                             }
-                        }
-                        System.out.print("Enter your email address: ");
-                        email = scannerRoomCreation.nextLine();
+                            if (!email.matches("^(.+)@(.+).com$")) {
+                                valid = false;
+                            } else {
+                                if (userResources.isEmailInSystem(email)) {
+                                    customer = userResources.getCustomer(email);
+//                                    System.out.println(customer.toString());
+                                    emailFound = true;
+                                    valid = true;
+                                } else {
+                                    emailFound = false;
+                                }
+                            }
+                        } while (!email.matches("^(.+)@(.+).com$") || !emailFound);
                         if (email.equals("back")) {
                             break;
                         }
-                        if (!email.matches("^(.+)@(.+).com$")) {
-                            valid = false;
-                        } else {
-                            if (userResources.isEmailInSystem(email)) {
-                                customer = userResources.getCustomer(email);
-                                System.out.println(customer.toString());
-                                emailFound = true;
-                                valid = true;
-                                System.out.println("Account found!");
-                            } else {
-                                emailFound = false;
-                            }
-                        }
+                        valid = true;
+                    } else if (input.equals("n")) {
+                        System.out.println("\n-------------------------------------------------------");
+                        System.out.println("\tAn account is required to book a room");
+                        System.out.println("\tSending back to Main menu...");
+                        System.out.println("-------------------------------------------------------");
+                        input = "back";
+                        break;
+                    } else {
+                        valid = false;
+                        System.out.println("\n\n-------------------------------------------------------");
+                        System.out.println("\t\t\tInvalid input");
+                        System.out.println("-------------------------------------------------------\n\n");
                     }
-                    while (!email.matches("^(.+)@(.+).com$") || !emailFound);
-
-                    valid = true;
-                    System.out.println("-------------------------------------------------------\n\n");
-                } else if (input.equals("n")) {
-                    System.out.println("\n-------------------------------------------------------");
-                    System.out.println("\tYou need to create an account to book a room");
-                    System.out.println("\tSending back to Main menu...");
-                    System.out.println("-------------------------------------------------------");
-                    input = "back";
-                    break;
-                } else {
-                    valid = false;
-                    System.out.println("\n\n-------------------------------------------------------");
-                    System.out.println("\t\t\tInvalid input");
-                    System.out.println("-------------------------------------------------------\n\n");
                 }
+
 //                contains = availableRooms.con
 //                for (IRoom room : availableRooms) {
 //                    System.out.println(room.getRoomNumber());
 //                }
             } while (!valid && !input.equals("back"));
 
+            if (!hasRooms) {
+                break;
+            }
+            if (email.equals("back")) {
+                break;
+            }
+            String RoomNum = "";
             do {
 //                if (!valid) {
 //                    System.out.println("\n-------------------------------------------------------");
@@ -180,9 +200,6 @@ public class BookARoom {
                 if (input.equals("back")) {
                     break;
                 }
-
-//                if (input.matches("^[0-9]+$")) {
-//                    int roomNumber = Integer.parseInt(input);
                 String finalInput = input;
 
                 int count = 0;
@@ -207,23 +224,21 @@ public class BookARoom {
                 System.out.println(roomToBook);
 //                }
             } while (!valid);
-
-            Date formattedCheckIn = new Date();
-            Date formattedCheckOut = new Date();
-
-
+            if (input.equals("back")) {
+                break;
+            }
             System.out.println("\n-------------------------------------------------------");
-            System.out.println("Booking Details\n");
+            System.out.println("\t\t\tBooking Details\n");
             assert customer != null;
-            System.out.println("Customer: " + customer.toString());
+            System.out.println("Customer: " + customer);
             assert roomToBook != null;
-            System.out.println("Room: " + roomToBook.toString());
+            System.out.println("Room: " + roomToBook);
             System.out.println("Check-in: " + new SimpleDateFormat("MM/dd/yyyy").format(checkInDate));
             System.out.println("Check-out: " + new SimpleDateFormat("MM/dd/yyyy").format(checkOutDate));
-
+            System.out.println("-------------------------------------------------------");
             do {
                 System.out.print("\nConfirm booking? (y/n): ");
-                input = scannerRoomCreation.nextLine();
+                input = scannerRoomCreation.nextLine().toLowerCase();
                 if (input.equals("back")) {
                     break;
                 }
@@ -231,7 +246,8 @@ public class BookARoom {
                     System.out.println("\n-------------------------------------------------------");
                     System.out.println("\t\t\t\tBooking confirmed!");
                     System.out.println("-------------------------------------------------------\n\n");
-                    reservationService.reserveARoom(customer, roomToBook, checkInDate, checkOutDate);
+                    userResources.createReservation(customer, roomToBook, checkInDate, checkOutDate);
+//                    reservationService.reserveARoom(customer, roomToBook, checkInDate, checkOutDate);
                     valid = true;
                     break;
                 } else if (input.equals("n")) {

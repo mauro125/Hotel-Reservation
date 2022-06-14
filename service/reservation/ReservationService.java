@@ -25,7 +25,7 @@ public class ReservationService {
 
     private final Map<String, Collection<IRoom>> rooms = new HashMap<>();
     //    private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
-    static Map<String, Reservation> reservations = new HashMap<>();
+    private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
 
     public void addRoom(IRoom room) {
         rooms.put(room.getRoomNumber(), (Collection<IRoom>) room);
@@ -54,17 +54,48 @@ public class ReservationService {
 
         Reservation reservation2 = new Reservation(customer2, room2, checkInDate, checkOutDate);
 
-        reservations.put(customer1.getEmail(), reservation1);
-        reservations.put(customer2.getEmail(), reservation2);
+//        Collection<Reservation> customerReservations = getCustomersReservation(customer1);
+
+
+//        Collection<Reservation> customerReservations = getCustomersReservation(customer);
+
+//        if (customerReservations == null) {
+//            customerReservations = new LinkedList<>();
+//        }
+
+//        for (int i = 0; i < 2; i++) {
+//            customerReservations.add(reservation1);
+//            reservations.put(customer1.getEmail(),  customerReservations);
+//
+//        }
+//        customerReservations.add(reservation1);
+//        reservations.put(customer1.getEmail(),  customerReservations);
+//        customerReservations.add(reservation2);
+//        reservations.put(customer1.getEmail(),  customerReservations);
     }
 
 
-    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
+//    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
+//        final Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
+////        Reservation reservation = new Reservation(getCustomer("narama125@mail.com"), (IRoom) hotelService.getRoom("101"), checkInDate, checkOutDate);
+//
+//
+//        return reservations.put(customer.getEmail(), reservation);
+//    }
+
+    public Reservation reserveARoom(final Customer customer, final IRoom room, final Date checkInDate, final Date checkOutDate) {
         final Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
-//        Reservation reservation = new Reservation(getCustomer("narama125@mail.com"), (IRoom) hotelService.getRoom("101"), checkInDate, checkOutDate);
 
+        Collection<Reservation> reservationsInSystem = getCustomersReservation(customer);
 
-        return reservations.put(customer.getEmail(), reservation);
+        if (reservationsInSystem == null) {
+            reservationsInSystem = new ArrayList<>();
+        }
+
+        reservationsInSystem.add(reservation);
+        reservations.put(customer.getEmail(), reservationsInSystem);
+
+        return reservation;
     }
 
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
@@ -121,19 +152,32 @@ public class ReservationService {
 //        return availableRooms;
 //    }
 
+//    public Collection<Reservation> getAllReservations() {
+//        return reservations.values();
+//    }
+
     public Collection<Reservation> getAllReservations() {
-        return reservations.values();
+        final Collection<Reservation> reservationsInSystem = new ArrayList<>();
+
+        for (Collection<Reservation> reservations : reservations.values()) {
+            reservationsInSystem.addAll((Collection<? extends Reservation>) reservations);
+        }
+        return reservationsInSystem;
     }
 
     public Collection<Reservation> getCustomersReservation(Customer customer) {
         return (Collection<Reservation>) reservations.get(customer.getEmail());
     }
 
-    public void printAllReservations() {
-        for (Reservation reservation : getAllReservations()) {
-            System.out.println(reservation);
-        }
+    public boolean isRoomInSystem(String roomNumber) {
+        return rooms.containsKey(roomNumber);
     }
+
+//    public void printAllReservations() {
+//        for (Reservation reservation : getAllReservations()) {
+//            System.out.println(reservation);
+//        }
+//    }
 
 
 }

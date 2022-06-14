@@ -1,6 +1,7 @@
 package resources;
 
 import model.customer.Customer;
+import model.reservation.Reservation;
 import model.room.IRoom;
 import service.customer.CustomerService;
 import service.reservation.ReservationService;
@@ -25,13 +26,13 @@ public class UserResources {
         customerService.addCustomer(fName, lName, email);
     }
 
-    public static void createReservation(String email, String roomNumber, Date checkInDate, Date checkOutDate) {
-        reservationService.reserveARoom(customerService.getCustomer(email), reservationService.getARoom(roomNumber), checkInDate, checkOutDate);
+    public static void createReservation(final Customer customer, final IRoom room, Date checkInDate, Date checkOutDate) {
+        reservationService.reserveARoom(customer, room, checkInDate, checkOutDate);
     }
 
-    public static Collection<IRoom> displayAvailableRooms(Date checkInDate, Date checkOutDate) {
-        return reservationService.findRooms(checkInDate, checkOutDate);
-    }
+//    public static Collection<IRoom> displayAvailableRooms(Date checkInDate, Date checkOutDate) {
+//        return reservationService.findRooms(checkInDate, checkOutDate);
+//    }
 
     public static boolean isEmailInSystem(String email) {
         return customerService.isEmailInSystem(email);
@@ -39,5 +40,9 @@ public class UserResources {
 
     public static Customer getCustomer(String email) {
         return customerService.getCustomer(email);
+    }
+
+    public static Collection<Reservation> getReservations(Customer customer) {
+        return reservationService.getCustomersReservation(customer);
     }
 }

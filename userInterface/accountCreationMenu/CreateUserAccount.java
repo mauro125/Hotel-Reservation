@@ -20,11 +20,13 @@ public class CreateUserAccount {
             do {
                 if (!valid || emailInUse) {
                     if(!valid) {
-                        System.out.println("Your email must be in the proper format \"joe@doe.com\":");
+                        System.out.println("Your email must be in the proper format \"joe@doe.com\"");
                     }
                     if (emailInUse) {
-                        System.out.println("That email is already in use");
-                        System.out.println("Please enter a different email");
+                        System.out.println("\n\n-------------------------------------------------------");
+                        System.out.println("\t\tThat email is already in use");
+                        System.out.println("\t\tPlease enter a different email");
+                        System.out.println("-------------------------------------------------------\n");
                     }
                 }
                 System.out.print("Enter your Email: ");
@@ -49,7 +51,10 @@ public class CreateUserAccount {
             String fName;
             do {
                 if (!valid) {
-                    System.out.println("\nOnly letters allowed\nCheck your input and try again\n");
+                    System.out.println("\n\n-------------------------------------------------------");
+                    System.out.println("\t\t\tOnly letters allowed");
+                    System.out.println("\t\tCheck your input and try again");
+                    System.out.println("-------------------------------------------------------\n");
                 }
                 System.out.print("Enter your First Name: ");
                 input = scannerUserCreation.nextLine();
@@ -57,7 +62,6 @@ public class CreateUserAccount {
                 if (input.equals("back")) {
                     break;
                 }
-                System.out.println(fName);
                 valid = false;
             } while (!fName.matches("^[a-zA-Z]*$"));
             valid = true;
@@ -68,7 +72,10 @@ public class CreateUserAccount {
             String lName;
             do {
                 if (!valid) {
-                    System.out.println("\nOnly letters allowed\nCheck your input and try again\n");
+                    System.out.println("\n\n-------------------------------------------------------");
+                    System.out.println("\t\t\tOnly letters allowed");
+                    System.out.println("\t\tCheck your input and try again");
+                    System.out.println("-------------------------------------------------------\n");
                 }
                 System.out.print("Enter your Last Name: ");
                 input = scannerUserCreation.nextLine();
@@ -76,12 +83,14 @@ public class CreateUserAccount {
                 if (input.equals("back")) {
                     break;
                 }
-                System.out.println(lName);
                 valid = false;
             } while (!lName.matches("^[a-zA-Z]*$"));
 
             if (!input.equals("back")) {
                 userResources.createUser(fName, lName, email);
+                System.out.println("\n-------------------------------------------------------");
+                System.out.println("\t\t\t\tUser created!");
+                System.out.println("-------------------------------------------------------\n");
                 break;
             }
         } while (!input.equals("back"));

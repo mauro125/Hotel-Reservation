@@ -24,7 +24,10 @@ public class HotelService {
     public static void addRoom(String roomNumber, Double price, RoomType roomType) {
         final Room room = new Room(roomNumber, price, roomType);
         rooms.put(roomNumber, room);
-        displayAllRooms();
+    }
+
+    public boolean isRoomInSystem(String roomNumber) {
+        return rooms.containsKey(roomNumber);
     }
 
     public Collection<IRoom> getRoom(String roomNumber) {
@@ -41,7 +44,7 @@ public class HotelService {
             System.out.println("\t\t\t\t\tNo Rooms found");
             System.out.println("********************************************************\n");
         } else {
-            System.out.println("\t\t\t\tall customers");
+            System.out.println("\n\t\t\t\tAll Rooms");
             System.out.println("------------------------------------------------------");
             System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
             System.out.println("------------------------------------------------------");

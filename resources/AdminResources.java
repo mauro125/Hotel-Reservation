@@ -9,14 +9,14 @@ import service.reservation.ReservationService;
 
 import java.util.Collection;
 
-public class AdminResource {
+public class AdminResources {
 
-    private static final AdminResource SINGLETON = new AdminResource();
+    private static final AdminResources SINGLETON = new AdminResources();
 
-    private AdminResource() {
+    private AdminResources() {
     }
 
-    public static AdminResource getSingleton() {
+    public static AdminResources getSingleton() {
         return SINGLETON;
     }
 
@@ -42,5 +42,9 @@ public class AdminResource {
 
     public static Collection<Reservation> displayAllReservations() {
         return reservationService.getAllReservations();
+    }
+
+    public static boolean isRoomInSystem(String roomNumber) {
+        return hotelService.isRoomInSystem(roomNumber);
     }
 }
