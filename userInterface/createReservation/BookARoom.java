@@ -104,7 +104,9 @@ public class BookARoom {
             System.out.println("\t\t\tSearching for available rooms...");
             System.out.println("-------------------------------------------------------\n\n");
 
-            Collection<IRoom> availableRooms = reservationService.findRooms(checkInDate, checkOutDate);
+            Collection<IRoom> availableRooms = userResources.displayAvailableRooms(checkInDate, checkOutDate);
+
+//            Collection<IRoom> availableRooms = reservationService.findRooms(checkInDate, checkOutDate);
 
 //            displayAvailableRooms(reservationService.findRooms(checkInDate, checkOutDate));
 
@@ -138,7 +140,8 @@ public class BookARoom {
                                 }
                             }
                             System.out.print("Enter your email address: ");
-                            email = scannerRoomCreation.nextLine();
+                            input = scannerRoomCreation.nextLine();
+                            email = input;
                             if (email.equals("back")) {
                                 break;
                             }
@@ -173,6 +176,9 @@ public class BookARoom {
                         System.out.println("-------------------------------------------------------\n\n");
                     }
                 }
+                if (input.equals("back")) {
+                    break;
+                }
 
 //                contains = availableRooms.con
 //                for (IRoom room : availableRooms) {
@@ -183,7 +189,7 @@ public class BookARoom {
             if (!hasRooms) {
                 break;
             }
-            if (email.equals("back")) {
+            if (input.equals("back")) {
                 break;
             }
             String RoomNum = "";
@@ -212,7 +218,7 @@ public class BookARoom {
                     }
                     if (count == availableRooms.size()) {
                         System.out.println("\n-------------------------------------------------------");
-                        System.out.println("\t\t\t-Invalid input check room number-");
+                        System.out.println("\t\t\t-That room is not available to be booked-");
                         System.out.println("\tType \"back\" anytime to go back to the main menu");
                         System.out.println("-------------------------------------------------------");
                         valid = false;
@@ -275,7 +281,7 @@ public class BookARoom {
         int month = Integer.parseInt(input.substring(0, 2));
         int day = Integer.parseInt(input.substring(3, 5));
         int year = Integer.parseInt(input.substring(6, 10));
-        calendar.set(year - 1, month, day);
+        calendar.set(year, month - 1, day);
         inputDate = calendar.getTime();
         System.out.println(inputDate);
         return inputDate;

@@ -20,10 +20,16 @@ public class HotelService {
     }
 
     static Map<String, IRoom> rooms = new HashMap<>();
-
+    static Map<String, IRoom> unavailableRooms = new HashMap<>();
     public static void addRoom(String roomNumber, Double price, RoomType roomType) {
         final Room room = new Room(roomNumber, price, roomType);
         rooms.put(roomNumber, room);
+        unavailableRooms.put(roomNumber, room);
+    }
+
+    public static void removeRoom(String roomNumber) {
+        unavailableRooms.remove(roomNumber);
+        System.out.println(unavailableRooms.values());
     }
 
     public boolean isRoomInSystem(String roomNumber) {
@@ -36,6 +42,10 @@ public class HotelService {
 
     public Collection<IRoom> getAllRooms() {
         return rooms.values();
+    }
+
+    public Collection<IRoom> getAllUnavailableRooms() {
+        return unavailableRooms.values();
     }
 
     public static void displayAllRooms() {

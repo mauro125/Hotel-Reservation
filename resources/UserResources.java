@@ -30,9 +30,9 @@ public class UserResources {
         reservationService.reserveARoom(customer, room, checkInDate, checkOutDate);
     }
 
-//    public static Collection<IRoom> displayAvailableRooms(Date checkInDate, Date checkOutDate) {
-//        return reservationService.findRooms(checkInDate, checkOutDate);
-//    }
+    public static Collection<IRoom> displayAvailableRooms(Date checkInDate, Date checkOutDate) {
+        return reservationService.findRooms(checkInDate, checkOutDate);
+    }
 
     public static boolean isEmailInSystem(String email) {
         return customerService.isEmailInSystem(email);

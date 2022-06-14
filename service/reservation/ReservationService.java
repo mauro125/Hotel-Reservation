@@ -7,7 +7,6 @@ import model.room.Room;
 import service.hotel.HotelService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static model.roomEnum.RoomType.DOUBLE;
 import static model.roomEnum.RoomType.SINGLE;
@@ -23,7 +22,7 @@ public class ReservationService {
         return SINGLETON;
     }
 
-    private final Map<String, Collection<IRoom>> rooms = new HashMap<>();
+    private static final Map<String, Collection<IRoom>> rooms = new HashMap<>();
     //    private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
     private final Map<String, Collection<Reservation>> reservations = new HashMap<>();
 
@@ -99,41 +98,51 @@ public class ReservationService {
     }
 
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
-        Map<String, Collection<IRoom>> uniqueOpenRooms = new HashMap<>();
-        Set<String> openRooms = new HashSet<>();
+//        Map<String, Collection<IRoom>> uniqueOpenRooms = new HashMap<>();
+//        Set<String> unavailableRooms = new HashSet<>();
 
         Collection<Reservation> reservations = getAllReservations();
 //        reservations = getAllReservations();
 
-        Collection<IRoom> rooms = hotelService.getAllRooms();
+        Collection<IRoom> unavailableRooms = hotelService.getAllRooms();
         if (reservations.size() == 0) {
-            return rooms;
+            return unavailableRooms;
         }
         for (Reservation reservation : reservations) {
-            if (!(reservation.getCheckInDate().before(checkOutDate) && reservation.getCheckOutDate().after(checkInDate))) {
-                openRooms.add(reservation.getRoom().getRoomNumber());
+            if ((reservation.getCheckInDate().before(checkOutDate) && reservation.getCheckOutDate().after(checkInDate))) {
+//                unavailableRooms.add(reservation.getRoom().getRoomNumber());
+                System.out.println(unavailableRooms);
+//                reservations
+//                hotelService.removeRoom(reservation.getRoom().getRoomNumber());
+//                unavailableRooms = hotelService.getAllRooms();
+//                hotelService.addRoom(reservation.getRoom().getRoomNumber(), reservation.getRoom().getRoomPrice(), reservation.getRoom().getRoomType());
+//                rooms.put(reservation.getRoom().getRoomNumber(), (Collection<IRoom>) reservation.getRoom());
+                System.out.println(unavailableRooms);
+//                System.out.println(rooms);
+                String roomNumba = reservation.getRoom().getRoomNumber();
+                unavailableRooms = unavailableRooms.stream().filter(room -> !room.getRoomNumber().equals(roomNumba)).toList();
             }
-        }
+        } return unavailableRooms;
 
 //        for (IRoom ignored : rooms) {
 //            openRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
 //        }
-        openRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
-        Iterator<String> openRoomsIterator = openRooms.iterator();
-        Collection<IRoom> roomCollection = null;
-        while (openRoomsIterator.hasNext()) {
-            String roomNumber = String.valueOf(openRoomsIterator.next());
-            System.out.println(roomNumber);
-//            System.out.println(openRoomsIterator.next());
-//            roomCollection = hotelService.getRoom(roomNumber);
-//            uniqu
-//            uniqueOpenRooms.put(roomNumber, hotelService.getRoom(roomNumber));
-            roomCollection = rooms.stream().filter(room -> room.getRoomNumber().equals(roomNumber)).toList();
-            uniqueOpenRooms.put(roomNumber, roomCollection);
-        }
-//        openRooms.addAll(openRooms);
-//        return rooms.stream().filter(room -> !openRooms.contains(room.getRoomNumber())).collect(Collectors.toList());
-        return uniqueOpenRooms.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+//        unavailableRooms.addAll(rooms.stream().map(IRoom::getRoomNumber).toList());
+//        Iterator<String> openRoomsIterator = unavailableRooms.iterator();
+//        Collection<IRoom> roomCollection = null;
+//        while (openRoomsIterator.hasNext()) {
+//            String roomNumber = String.valueOf(openRoomsIterator.next());
+//            System.out.println(roomNumber);
+////            System.out.println(openRoomsIterator.next());
+////            roomCollection = hotelService.getRoom(roomNumber);
+////            uniqu
+////            uniqueOpenRooms.put(roomNumber, hotelService.getRoom(roomNumber));
+//            roomCollection = rooms.stream().filter(room -> !room.getRoomNumber().equals(roomNumber)).toList();
+//            uniqueOpenRooms.put(roomNumber, roomCollection);
+//        }
+////        openRooms.addAll(openRooms);
+////        return rooms.stream().filter(room -> !openRooms.contains(room.getRoomNumber())).collect(Collectors.toList());
+//        return uniqueOpenRooms.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
 //        for (Collection<IRoom> reservation : reservations.values()) {
 //            if (reservations.getCheckOutDate()(cehckInDate) && reservations.after(checkOutDate)) {
 //                return room;
@@ -142,6 +151,10 @@ public class ReservationService {
 
 //        return ;
     }
+//
+//    private static void removeRoom(IRoom room) {
+//        rooms.remove(room.getRoomNumber());
+//    }
 
 //    private Collection<IRoom> findAvailableRooms(Date checkInDate, Date checkOutDate) {
 //        final Collection<Reservation> allReservations = getAllReservations();
@@ -169,9 +182,9 @@ public class ReservationService {
         return (Collection<Reservation>) reservations.get(customer.getEmail());
     }
 
-    public boolean isRoomInSystem(String roomNumber) {
-        return rooms.containsKey(roomNumber);
-    }
+//    public boolean isRoomInSystem(String roomNumber) {
+//        return rooms.containsKey(roomNumber);
+//    }
 
 //    public void printAllReservations() {
 //        for (Reservation reservation : getAllReservations()) {
