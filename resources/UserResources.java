@@ -31,7 +31,7 @@ public class UserResources {
     }
 
     public static Collection<IRoom> displayAvailableRooms(Date checkInDate, Date checkOutDate) {
-        return reservationService.findRooms(checkInDate, checkOutDate);
+        return reservationService.findRoomsDefault(checkInDate, checkOutDate);
     }
 
     public static boolean isEmailInSystem(String email) {

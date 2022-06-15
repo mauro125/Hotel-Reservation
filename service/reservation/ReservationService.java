@@ -3,13 +3,9 @@ package service.reservation;
 import model.customer.Customer;
 import model.reservation.Reservation;
 import model.room.IRoom;
-import model.room.Room;
 import service.hotel.HotelService;
 
 import java.util.*;
-
-import static model.roomEnum.RoomType.DOUBLE;
-import static model.roomEnum.RoomType.SINGLE;
 
 public class ReservationService {
     private static final ReservationService SINGLETON = new ReservationService();
@@ -80,18 +76,25 @@ public class ReservationService {
         return reservation;
     }
 
-    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+    public Collection<IRoom> findRoomsDefault(Date checkInDate, Date checkOutDate) {
+        return findRooms(checkInDate, checkOutDate);
+    }
+
+    Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
         Collection<Reservation> reservations = getAllReservations();
         Collection<IRoom> availableRooms = hotelService.getAllRooms();
         if (reservations.size() == 0) {
             return availableRooms;
         }
         for (Reservation reservation : reservations) {
+            String unAvailableRoomNumba = reservation.getRoom().getRoomNumber();
             if ((reservation.getCheckInDate().before(checkOutDate) && reservation.getCheckOutDate().after(checkInDate))) {
-                String unAvailableRoomNumba = reservation.getRoom().getRoomNumber();
                 availableRooms = availableRooms.stream().filter(room -> !room.getRoomNumber().equals(unAvailableRoomNumba)).toList();
+            } else {
+                availableRooms = availableRooms.stream().filter(room -> room.getRoomNumber().equals(unAvailableRoomNumba)).toList();
             }
-        } return availableRooms;
+        }
+        return availableRooms;
     }
 
     public Collection<Reservation> getAllReservations() {

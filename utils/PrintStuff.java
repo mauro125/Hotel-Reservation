@@ -3,11 +3,8 @@ package utils;
 import model.customer.Customer;
 import model.reservation.Reservation;
 import model.room.IRoom;
-import service.customer.CustomerService;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PrintStuff {
     public static void displayCustomers(Collection<Customer> customers) {
@@ -26,20 +23,33 @@ public class PrintStuff {
         }
     }
 
-    public static boolean displayAvailableRooms(Collection<IRoom> rooms) {
-        boolean hasRooms = false;
-        if (rooms.size() == 0) {
+    public static String displayAvailableRooms(Collection<IRoom> currentDateRooms, Collection<IRoom> futureRooms) {
+        String hasRooms = "No rooms";
+        if (currentDateRooms.size() == 0 && futureRooms.size() == 0) {
             System.out.println("********************************************************");
-            System.out.println("\t\t\t\tNo rooms Available to book");
+            System.out.println("\t\t\t\tNo rooms Available to book or 7 days ahead");
             System.out.println("\t\t\t\t\tBack to main menu..");
             System.out.println("********************************************************\n\n");
-        } else {
-            hasRooms = true;
+        } else if (currentDateRooms.size() == 0 && futureRooms.size() > 0) {
+            hasRooms = "future rooms";
+            System.out.println("No rooms were available to book for the current date");
+            System.out.println("Available rooms for 7 days ahead of your original search dates");
+            System.out.println("are displayed below..");
             System.out.println("\t\t\t\tAvailable rooms");
             System.out.println("------------------------------------------------------");
             System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
             System.out.println("------------------------------------------------------");
-            for (Object room : rooms) {
+            for (Object room : futureRooms) {
+                System.out.println(room);
+            }
+            System.out.println("\n");
+        } else {
+            hasRooms = "current rooms";
+            System.out.println("\t\t\t\tAvailable rooms");
+            System.out.println("------------------------------------------------------");
+            System.out.println("Room Number\t\tRoom Price\t\tRoom Type");
+            System.out.println("------------------------------------------------------");
+            for (Object room : currentDateRooms) {
                 System.out.println(room);
             }
             System.out.println("\n");

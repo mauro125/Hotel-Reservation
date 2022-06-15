@@ -5,7 +5,6 @@ import model.room.IRoom;
 import model.room.Room;
 import org.jetbrains.annotations.NotNull;
 import resources.UserResources;
-import service.reservation.ReservationService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -13,7 +12,7 @@ import java.util.*;
 import static utils.PrintStuff.displayAvailableRooms;
 
 public class BookARoom {
-//    private static final ReservationService reservationService = ReservationService.getSingleton();
+    //    private static final ReservationService reservationService = ReservationService.getSingleton();
     private static final UserResources userResources = UserResources.getSingleton();
 
     public static void bookARoom() {
@@ -27,7 +26,8 @@ public class BookARoom {
         boolean checkOutIsBeforeCheckin = false;
         Customer customer = null;
         Room roomToBook = null;
-        boolean hasRooms;
+        String hasRooms;
+        boolean futureRooms;
 
 //        reservationService.loadDummyData();
 
@@ -106,9 +106,14 @@ public class BookARoom {
 
             Collection<IRoom> availableRooms = userResources.displayAvailableRooms(checkInDate, checkOutDate);
 
+            Date futureCheckIn = futureDate(checkInDate);
+            Date futureCheckOut = futureDate(checkOutDate);
+
+            Collection<IRoom> availableFutureRooms = userResources.displayAvailableRooms(futureCheckIn, futureCheckOut);
+
             do {
-                hasRooms = displayAvailableRooms(availableRooms);
-                if (!hasRooms) {
+                hasRooms = displayAvailableRooms(availableRooms, availableFutureRooms);
+                if (hasRooms.equals("no rooms")) {
                     break;
                 } else {
                     System.out.print("Do you have an account? (y/n): ");
@@ -177,7 +182,7 @@ public class BookARoom {
 
             } while (!valid && !input.equals("back"));
 
-            if (!hasRooms) {
+            if (hasRooms.equals("no rooms")) {
                 break;
             }
             if (input.equals("back")) {
@@ -191,20 +196,39 @@ public class BookARoom {
                 }
                 String finalInput = input;
 
-                int count = 0;
-                for (IRoom room : availableRooms) {
-                    count++;
-                    if (room.getRoomNumber().equals(finalInput)) {
-                        roomToBook = (Room) room;
-                        valid = true;
-                        break;
+                if (hasRooms.equals("current rooms")) {
+                    int count = 0;
+                    for (IRoom room : availableRooms) {
+                        count++;
+                        if (room.getRoomNumber().equals(finalInput)) {
+                            roomToBook = (Room) room;
+                            valid = true;
+                            break;
+                        }
+                        if (count == availableRooms.size()) {
+                            System.out.println("\n-------------------------------------------------------");
+                            System.out.println("\t\t\t-That room is not available to be booked-");
+                            System.out.println("\tType \"back\" anytime to go back to the main menu");
+                            System.out.println("-------------------------------------------------------");
+                            valid = false;
+                        }
                     }
-                    if (count == availableRooms.size()) {
-                        System.out.println("\n-------------------------------------------------------");
-                        System.out.println("\t\t\t-That room is not available to be booked-");
-                        System.out.println("\tType \"back\" anytime to go back to the main menu");
-                        System.out.println("-------------------------------------------------------");
-                        valid = false;
+                } else if (hasRooms.equals("future rooms")) {
+                    int count = 0;
+                    for (IRoom room : availableFutureRooms) {
+                        count++;
+                        if (room.getRoomNumber().equals(finalInput)) {
+                            roomToBook = (Room) room;
+                            valid = true;
+                            break;
+                        }
+                        if (count == availableFutureRooms.size()) {
+                            System.out.println("\n-------------------------------------------------------");
+                            System.out.println("\t\t\t-That room is not available to be booked-");
+                            System.out.println("\tType \"back\" anytime to go back to the main menu");
+                            System.out.println("-------------------------------------------------------");
+                            valid = false;
+                        }
                     }
                 }
                 System.out.println(roomToBook);
@@ -213,15 +237,28 @@ public class BookARoom {
             if (input.equals("back")) {
                 break;
             }
-            System.out.println("\n-------------------------------------------------------");
-            System.out.println("\t\t\tBooking Details\n");
-            assert customer != null;
-            System.out.println("Customer: " + customer);
-            assert roomToBook != null;
-            System.out.println("Room: " + roomToBook);
-            System.out.println("Check-in: " + new SimpleDateFormat("MM/dd/yyyy").format(checkInDate));
-            System.out.println("Check-out: " + new SimpleDateFormat("MM/dd/yyyy").format(checkOutDate));
-            System.out.println("-------------------------------------------------------");
+
+            if (hasRooms.equals("current rooms")) {
+                System.out.println("\n-------------------------------------------------------");
+                System.out.println("\t\t\tBooking Details\n");
+                assert customer != null;
+                System.out.println("Customer: " + customer);
+                assert roomToBook != null;
+                System.out.println("Room: " + roomToBook);
+                System.out.println("Check-in: " + new SimpleDateFormat("MM/dd/yyyy").format(checkInDate));
+                System.out.println("Check-out: " + new SimpleDateFormat("MM/dd/yyyy").format(checkOutDate));
+                System.out.println("-------------------------------------------------------");
+            } else if (hasRooms.equals("future rooms")) {
+                System.out.println("\n-------------------------------------------------------");
+                System.out.println("\t\t\tBooking Details for 7 days more from original search\n");
+                assert customer != null;
+                System.out.println("Customer: " + customer);
+                assert roomToBook != null;
+                System.out.println("Room: " + roomToBook);
+                System.out.println("Check-in: " + new SimpleDateFormat("MM/dd/yyyy").format(futureCheckIn));
+                System.out.println("Check-out: " + new SimpleDateFormat("MM/dd/yyyy").format(futureCheckOut));
+                System.out.println("-------------------------------------------------------");
+            }
             do {
                 System.out.print("\nConfirm booking? (y/n): ");
                 input = scannerRoomCreation.nextLine().toLowerCase();
@@ -232,7 +269,14 @@ public class BookARoom {
                     System.out.println("\n-------------------------------------------------------");
                     System.out.println("\t\t\t\tBooking confirmed!");
                     System.out.println("-------------------------------------------------------\n\n");
-                    userResources.createReservation(customer, roomToBook, checkInDate, checkOutDate);
+                    if (hasRooms.equals("current rooms")) {
+                        userResources.createReservation(customer, roomToBook, checkInDate, checkOutDate);
+                    } else if (hasRooms.equals("future rooms")) {
+                        userResources.createReservation(customer, roomToBook, futureCheckIn, futureCheckOut);
+
+                    }
+//                    availableRooms.clear();
+//                    availableFutureRooms.clear();
                     valid = true;
                     break;
                 } else if (input.equals("n")) {
@@ -247,10 +291,9 @@ public class BookARoom {
                     System.out.println("-------------------------------------------------------\n");
                     valid = false;
                 }
-
             } while (!valid);
-
-        } while (!valid);
+        }
+        while (!valid);
     }
 
     @NotNull
@@ -263,5 +306,12 @@ public class BookARoom {
         calendar.set(year, month - 1, day);
         inputDate = calendar.getTime();
         return inputDate;
+    }
+
+    static Date futureDate(Date date) {
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date);
+        calendar2.add(Calendar.DATE, 7);
+        return calendar2.getTime();
     }
 }
